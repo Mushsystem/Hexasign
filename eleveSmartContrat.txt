@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.8.2 <0.9.0;
+
+
+
+contract Profile {
+    struct Eleve {
+    string prenom;
+    string nom;
+    uint age;
+    string cursus;
+    }
+    
+    string public name = "bullycoin";
+    string public ticker = "BCN";
+    
+    Eleve public eleve = Eleve(
+        "alice",
+        "dupond",
+        20,
+        "patissier"
+        );
+        
+    function eleveInfo(string memory _prenom, string memory _nom, uint _age, string memory _cursus) public {
+        eleve = Eleve (
+            _prenom,
+            _nom,
+            _age,
+            _cursus
+        );
+    }
+    
+    function getTimestamp() public view returns (uint256) {
+        return block.timestamp;
+    }
+    
+    mapping(address => uint) public balances;
+    
+    constructor() {
+        balances[msg.sender] = 1000000000000000000000000;
+        }
+        
+    function transfer(address recipient, uint amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+        balances[recipient] += amount;
+        balances[msg.sender] -= amount;
+    }
+}
